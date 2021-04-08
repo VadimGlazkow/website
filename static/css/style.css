@@ -2,9 +2,6 @@ div.block {
 	display: inline;
 	margin-left: 50px;
 }
-div.head {
-	display: inline;
-}
 
 .rounded-input {
 	outline: none;
@@ -38,5 +35,6 @@ button.blue_but {
     display: inline-block;
     font-size: 16px;
 }
+
 .button:hover { background: linear-gradient(#f5ae00, #f59500) #f5ae00;}
 .button:active { background: linear-gradient(#f59500, #f5ae00) #f59500;}
