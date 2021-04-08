@@ -18,11 +18,13 @@ def add_user():
 
 def add_question():
     db_sess = db_session.create_session()
+    with open('main.txt') as file:
+        text = file.read()
     question = Questions(
-        author=1,
+        author=2,
         title='Синтаксис python',
-        question='Что такое оператор := в python?',
-        popular=3
+        question=text,
+        popular=1
     )
     db_sess.add(question)
     db_sess.commit()
@@ -40,6 +42,5 @@ def add_comment():
 
 if __name__ == '__main__':
     db_session.global_init('db/posts.db')
-    add_user()
     add_question()
-    add_comment()
+

@@ -1,12 +1,33 @@
 {% extends "base.html" %}
 
 {% block login %}
-    {{ form.search_line(class="rounded-input", placeholder="Найти вопрос...")}}
-    {% for error in form.search_line.errors %}
-        <div class="alert alert-danger" role="alert">
-            {{ error }}
+    <form method="post" class="block">
+        {{ form.search_line(class="rounded-input", placeholder="Найти вопрос...")}}
+        {% for error in form.search_line.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
+        {{ form.submit(type="submit", class="button")}}
+        <div>{{ message }}</div>
+    </form>
+    {% for qst, user, avatar, date in questions%}
+        <br>
+        <div class="together_with">
+            <img src="{{avatar}}" width="40" class="photo_straw">
+            <div class="datem">
+                {{user.name}} {{user.surname}}&nbsp&nbsp{{date}}
+            </div>
+        </div><br><br>
+        <p class="question">{{ qst.question }}</p>
+        <div class="stars">
+        {% for num in range(1, 6) %}
+                {% if num <= qst.popular %}
+                    <img src="{{ star_on }}" width="17">
+                {% else %}
+                    <img src="{{ star_off }}" width="17">
+                {% endif %}
+        {% endfor %}
         </div>
     {% endfor %}
-    {{ form.submit(type="submit", class="button") }}
-    <div>{{ message }}</div>
 {% endblock %}

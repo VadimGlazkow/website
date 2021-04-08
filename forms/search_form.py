@@ -5,5 +5,5 @@ from wtforms.validators import DataRequired
 
 
 class SearchForm(FlaskForm):
-    search_line = StringField(validators=[DataRequired()])
+    search_line = StringField()
     submit = SubmitField('Найти')

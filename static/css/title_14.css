@@ -27,7 +27,33 @@ form.block {
 .button:active { background: linear-gradient(#f59500, #f5ae00) #f59500;}
 
 p.question {
-    width: 50%;
+    width: 60%;
     background-color: rgb(185, 170, 170);
-    color: red;
+    margin-left: 50px;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    line-height: 1.2;
+    margin-top: 10px;
 }
+div.datem {
+    padding: 5px;
+    background-color: #A3C1DA;
+    border-radius: 5px;
+    float: left;
+    margin-left: 10px;
+    margin-top: 5px;
+
+}
+div.together_with {
+    margin-left: 50px;
+}
+img.photo_straw {
+    float: left;
+    border-radius: 50%;
+}
+div.stars {
+    margin-left: 50%;
+}
+
+.
