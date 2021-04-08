@@ -15,7 +15,13 @@ def title():
     if form.validate_on_submit():
         return form.search_line.data
     return render_template('search.html', form=form,
-                           css_file=url_for('static', filename='css/style.css'))
+                           css_file=url_for('static', filename='css/style.css'),
+                           logo_photo=url_for('static', filename='img/Logo_web.png'),
+                           new_ask=url_for('static', filename='img/new_ask.png'),
+                           our=url_for('static', filename='img/our.png'),
+                           my_ask=url_for('static', filename='img/my_ask.png'),
+                           fon=url_for('static', filename='img/fon.png')
+                           )
 
 
 if __name__ == '__main__':
