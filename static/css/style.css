@@ -1,0 +1,15 @@
+div.block {
+	display: inline;
+	margin-left: 50px;
+}
+.rounded-input {
+	padding: 10px;
+	margin: 10px 0;
+	border-radius:10px;
+	width: 50%;
+
+}
+.button {
+	margin-left: 30px;
+	color: red;
+}

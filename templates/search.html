@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block login %}
+    {{ form.search_line(class="rounded-input", placeholder="Найти вопрос...")}}
+    {% for error in form.search_line.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endfor %}
+    {{ form.submit(type="submit", class="button") }}
+    <div>{{ message }}</div>
+{% endblock %}
