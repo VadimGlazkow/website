@@ -17,7 +17,7 @@ class User(SqlAlchemyBase, UserMixin):
     hashed_password = sqlalchemy.Column(sqlalchemy.String)
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                       default=datetime.datetime.now)
-    photo = sqlalchemy.Column(sqlalchemy.String, default='defold_avatarka.png')
+    photo = sqlalchemy.Column(sqlalchemy.String, default='')
 
     questions = orm.relation("Questions", back_populates='user')
 

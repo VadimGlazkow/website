@@ -34,17 +34,27 @@
         <a href="/" class="button7" style="top: 30px; left: 350px">Мои вопросы</a>
         <a href="/about_us" class="button7" style="top: 30px; left: 497px;">О нас</a>
     </div>
-        <a href="/news" class="button7" style="top: 30px; left: 710px;">
+         {% if current_user.is_authenticated %}
+        <a href="/logout" style="margin-left: 64%;">
+            <img src="static/img/avatars/{{current_user.photo}}" width="40" style="border-radius: 50%;">
+            {{ current_user.name }} {{ current_user.surname }}
+        </a>
+    {% else %}
+    <p>
+        <a href="/login" class="button7" style="top: 30px; left: 60%;">
            Войти
         </a>
-        <a href="/news" class="button7" style="top: 30px; left: 800px;">
+        <a href="/register" class="button7" style="top: 30px; left: 67%;">
             Зарегистрироваться
         </a>
+        {% endif %}
+    </p>
     <p></p>
 </header>
     <div>
         {% block login %}{% endblock %}
         {% block about_us %}{% endblock %}
+        {% block register %}{% endblock %}
     </div>
 <footer>
     <div class="floor" style="background-color: #808080; margin-top: 30px; height: 80px;">

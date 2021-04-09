@@ -7,9 +7,9 @@ from data.comments import Comments
 def add_user():
     db_sess = db_session.create_session()
     user = User(
-        surname='Глазков',
-        name='Вадим',
-        email='123@yandex.ru'
+        surname='Гулиев',
+        name='Павел',
+        email='1234567@yandex.ru'
     )
     user.set_password('qwerty')
     db_sess.add(user)
@@ -21,10 +21,10 @@ def add_question():
     with open('main.txt') as file:
         text = file.read()
     question = Questions(
-        author=2,
+        author=3,
         title='Синтаксис python',
         question=text,
-        popular=1
+        popular=5
     )
     db_sess.add(question)
     db_sess.commit()
