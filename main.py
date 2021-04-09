@@ -22,12 +22,43 @@ def title():
         questions = [(qst, user, url_for('static', filename='img/' + user.photo), str(qst.date)[:16])
                      for qst, user in questions]
         return render_template('search.html', form=form,
-                               css_file=url_for('static', filename='css/title_14.css'),
+                               css_file=url_for('static', filename='css/title_20.css'),
                                questions=questions,
                                star_on=url_for('static', filename='img/star_on.png'),
-                               star_off=url_for('static', filename='img/star_off.png'))
+                               star_off=url_for('static', filename='img/star_off.png'),
+                               logo_photo=url_for('static', filename='img/logo_.png'),
+                               new_ask=url_for('static', filename='img/new_ask.png'),
+                               our=url_for('static', filename='img/our.png'),
+                               my_ask=url_for('static', filename='img/my_ask.png'),
+                               fon=url_for('static', filename='img/fon.png'),
+                               vk=url_for('static', filename='img/vk.png'),
+                               insta=url_for('static', filename='img/insta.png'),
+                               face=url_for('static', filename='img/face.png'),
+                               git_hub=url_for('static', filename='img/git_hub.png'),
+                               youtube=url_for('static', filename='img/YouTube.png'),
+                               )
     else:
         pass
+
+
+@app.route('/about_us')
+def about_us():
+    return render_template('about_us.html',
+                           css_file=url_for('static', filename='css/title_14.css'),
+                           logo_photo=url_for('static', filename='img/logo_.png'),
+                           new_ask=url_for('static', filename='img/new_ask.png'),
+                           our=url_for('static', filename='img/our.png'),
+                           my_ask=url_for('static', filename='img/my_ask.png'),
+                           fon_my=url_for('static', filename='img/fon_my.png'),
+                           andrey=url_for('static', filename='img/Andrey_op.png'),
+                           vadim=url_for('static', filename='img/Vadim_op.png'),
+                           boar=url_for('static', filename='img/boar.png'),
+                           vk=url_for('static', filename='img/vk.png'),
+                           insta=url_for('static', filename='img/insta.png'),
+                           face=url_for('static', filename='img/face.png'),
+                           git_hub=url_for('static', filename='img/git_hub.png'),
+                           youtube=url_for('static', filename='img/YouTube.png'),
+                           )
 
 
 if __name__ == '__main__':

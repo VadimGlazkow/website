@@ -6,20 +6,12 @@
     <link rel="stylesheet" type="text/css" href="{{ css_file }}">
 </head>
 <body>
-<hr>
-    <div >
-        <a href="/">
-            <img  width="260" height="100" src="{{logo_photo}}" style="margin: 0% -3%;">
-        </a>
-		<a href="/news">
-            <img  width="240" height="100" src="{{new_ask}}" style="margin: 0% -0.2%">
-        </a>
-        <a href="/news">
-            <img  width="240" height="100" src="{{my_ask}}" style="margin: 0% -0.155%">
-        </a>
-        <a href="/news">
-            <img  width="240" height="100" src="{{our}}" style="margin: 0% -0.155%">
-        </a>
+<header style="background-color: #2d9bf0; height: 80px; margin-bottom: 30px;">
+    <a href="/"><img src="{{ logo_photo }}" height="65" style="float: left; margin-left: 10px; margin-top: 7px;"></a>
+    <div style="margin-left: 30px; float: left">
+        <a href="/"><div style="float: left; background: #12cdd4; height: 80px">Задать вопрос</div></a>
+        <a href="/"><div style="float: left; background: #12cdd4;">Мои вопросы</div></a>
+        <a href="/about_us"><div style="float: left; background: #12cdd4;">О нас</div></a>
     </div>
         <a href="/news">
             <button style="background-color: rgb(18,205,212); padding: 15px 32px;border-radius: 12px;margin: 0% 7%">Войти</button>
@@ -31,9 +23,25 @@
 </header>
     <div>
         {% block login %}{% endblock %}
+        {% block about_us %}{% endblock %}
     </div>
 <footer>
-    Это тоже ты хотел сделать (низ)
+    <div class="floor" style="background-color: #808080; margin-top: 30px; height: 80px;">
+         <a href="/"><img src="{{ logo_photo }}" height="65" style="float: left; margin-left: 10px; margin-top: 7px;"></a>
+        <div style="float: left; color: #c6cdcc; font-size: 14px; line-height: 1.4; margin-left: 30px;">
+            Создатели проекты: Малявин Андрей и Глазков Вадим.<br>
+            Автор идеи: Павел Гулиев.<br>
+            Проект создан не в коммерческих целях, a для закрепления<br>
+            знаний по созданию сайта, полученные в "Яндекс.лицее".<br>
+        </div>
+        <div style="float: left; margin-left: 35%; margin-top: 20px;">
+            <a href="/"><img  width="35" height="35" src="{{vk}}"></a>&nbsp&nbsp&nbsp&nbsp
+            <a href="/"><img  width="35" height="35" src="{{insta}}"></a>&nbsp&nbsp&nbsp&nbsp
+            <a href="/"><img  width="35" height="35" src="{{face}}"></a>&nbsp&nbsp&nbsp&nbsp
+            <a href="/"><img  width="35" height="35" src="{{git_hub}}"></a>&nbsp&nbsp&nbsp&nbsp
+            <a href="/"><img  width="35" height="35" src="{{youtube}}"></a>
+        </div>
+    </div>
 </footer>
 </body>
 </html>

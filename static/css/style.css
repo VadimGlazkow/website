@@ -41,3 +41,7 @@ button.blue_but {
     display: inline-block;
     font-size: 16px;
 }
+
+footer {
+    back-ground: red;
+}
