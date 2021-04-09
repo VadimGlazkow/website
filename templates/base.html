@@ -6,8 +6,28 @@
     <link rel="stylesheet" type="text/css" href="{{ css_file }}">
 </head>
 <body>
-<header>
-    Андрей, ты хотел это сделать (шапка)
+<hr>
+    <div >
+        <a href="/">
+            <img  width="260" height="100" src="{{logo_photo}}" style="margin: 0% -3%;">
+        </a>
+		<a href="/news">
+            <img  width="240" height="100" src="{{new_ask}}" style="margin: 0% -0.2%">
+        </a>
+        <a href="/news">
+            <img  width="240" height="100" src="{{my_ask}}" style="margin: 0% -0.155%">
+        </a>
+        <a href="/news">
+            <img  width="240" height="100" src="{{our}}" style="margin: 0% -0.155%">
+        </a>
+    </div>
+        <a href="/news">
+            <button style="background-color: rgb(18,205,212); padding: 15px 32px;border-radius: 12px;margin: 0% 7%">Войти</button>
+        </a>
+        <a href="/news" >
+            <button style="background-color: rgb(18,205,212); padding: 15px 32px;border-radius: 12px;margin: 0% -6%">Зарегистрироваться</button>
+        </a>
+    <p></p>
 </header>
     <div>
         {% block login %}{% endblock %}
