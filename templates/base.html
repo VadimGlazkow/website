@@ -30,14 +30,20 @@
 <header style="background-color: #2d9bf0; height: 80px; margin-bottom: 30px;">
     <a href="/"><img src="{{ logo_photo }}" height="65" style="float: left; margin-left: 10px; margin-top: 7px;"></a>
     <div style="margin-left: 30px; float: left">
-        <a href="/" class="button7" style="top: 30px; left: 200px;">Задать вопрос</a>
-        <a href="/" class="button7" style="top: 30px; left: 350px">Мои вопросы</a>
+        {% if current_user.is_authenticated %}
+            <a href="/new_ask" class="button7" style="top: 30px; left: 200px;">Задать вопрос</a>
+            <a href="/my_ask" class="button7" style="top: 30px; left: 350px">Мои вопросы</a>
+        {% endif %}
         <a href="/about_us" class="button7" style="top: 30px; left: 497px;">О нас</a>
+
     </div>
-         {% if current_user.is_authenticated %}
-        <a href="/logout" style="margin-left: 64%;">
-            <img src="static/img/avatars/{{current_user.photo}}" width="40" style="border-radius: 50%;">
+    {% if current_user.is_authenticated %}
+        <img src="static/img/avatars/{{current_user.photo}}" width="40" style="border-radius: 50%;left:1000px;position:absolute">
+            <p style="left:1050px;position:absolute">
             {{ current_user.name }} {{ current_user.surname }}
+            </p>
+        <a href="/logout" style="left:1300px;position:absolute" class="button7">
+            Выход
         </a>
     {% else %}
     <p>
@@ -55,6 +61,8 @@
         {% block login %}{% endblock %}
         {% block about_us %}{% endblock %}
         {% block register %}{% endblock %}
+         {% block my_ask %}{% endblock %}
+        {% block new_ask %}{% endblock %}
     </div>
 <footer>
     <div class="floor" style="background-color: #808080; margin-top: 30px; height: 80px;">

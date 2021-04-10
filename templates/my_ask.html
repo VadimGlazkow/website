@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block my_ask %}
+    {% for qst in ask%}
+        <p class="question">{{ qst.title }}</p>
+        <div class="stars">
+        {% for num in range(1, 6) %}
+                {% if num <= qst.popular %}
+                    <img src="{{ star_on_o }}" width="17">
+                {% else %}
+                    <img src="{{ star_off_o }}" width="17">
+                {% endif %}
+        {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}

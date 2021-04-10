@@ -8,6 +8,7 @@ from data.comments import Comments
 from forms.search_form import SearchForm
 from forms.register_form import RegisterForm
 from forms.login_form import LoginForm
+from forms.ask_form import AskForm
 
 
 app = Flask(__name__)
@@ -64,7 +65,7 @@ def title():
 @app.route('/about_us')
 def about_us():
     return render_template('about_us.html',
-                           css_file=url_for('static', filename='css/title_14.css'),
+                           css_file=url_for('static', filename='css/title_20.css'),
                            logo_photo=url_for('static', filename='img/logo_.png'),
                            new_ask=url_for('static', filename='img/new_ask.png'),
                            our=url_for('static', filename='img/our.png'),
@@ -84,7 +85,7 @@ def about_us():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
-    param = {'css_file': url_for('static', filename='css/title_14.css'),
+    param = {'css_file': url_for('static', filename='css/title_20.css'),
              'logo_photo': url_for('static', filename='img/logo_.png'),
              'vk': url_for('static', filename='img/vk.png'),
              'insta': url_for('static', filename='img/insta.png'),
@@ -124,7 +125,7 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    param = {'css_file': url_for('static', filename='css/title_14.css'),
+    param = {'css_file': url_for('static', filename='css/title_20.css'),
              'logo_photo': url_for('static', filename='img/logo_.png'),
              'vk': url_for('static', filename='img/vk.png'),
              'insta': url_for('static', filename='img/insta.png'),
@@ -142,6 +143,59 @@ def login():
                                message="Неправильный логин или пароль",
                                form=form)
     return render_template('login.html', **param)
+
+
+@app.route('/new_ask', methods=['GET', 'POST'])
+def new_ask():
+    form = AskForm()
+    param = {'css_file': url_for('static', filename='css/title_20.css'),
+             'logo_photo': url_for('static', filename='img/logo_.png'),
+             'vk': url_for('static', filename='img/vk.png'),
+             'insta': url_for('static', filename='img/insta.png'),
+             'face': url_for('static', filename='img/face.png'),
+             'git_hub': url_for('static', filename='img/git_hub.png'),
+             'youtube': url_for('static', filename='img/YouTube.png'),
+             'form': form}
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        id_for_fon = max([user.id for user in db_sess.query(Questions).all()]) + 1
+        fon = form.fon_photo.data
+        if fon:
+            with open(f'static/img/avatars/{id_for_fon}_fon.png', 'wb') as file:
+                file.write(fon.read())
+            photo = f'{id_for_fon}_fon.png'
+        else:
+            photo = 'fon.png'
+        qust = Questions(
+            author=current_user.id,
+            title=form.title.data,
+            question=form.question.data,
+            photo=photo
+        )
+        db_sess.add(qust)
+        db_sess.commit()
+        return redirect('/')
+    return render_template('new_ask.html', **param)
+
+
+@app.route('/my_ask')
+def my_ask():
+    db_ses = db_session.create_session()
+    param = {'css_file': url_for('static', filename='css/title_20.css'),
+             'star_on_o': url_for('static', filename='img/star_on.png'),
+             'star_off_o': url_for('static', filename='img/star_off.png'),
+             'logo_photo': url_for('static', filename='img/logo_.png'),
+             'vk': url_for('static', filename='img/vk.png'),
+             'insta': url_for('static', filename='img/insta.png'),
+             'face': url_for('static', filename='img/face.png'),
+             'git_hub': url_for('static', filename='img/git_hub.png'),
+             'youtube': url_for('static', filename='img/YouTube.png')}
+    ask = db_ses.query(Questions).all()
+    ask_mi = []
+    for i in ask:
+        if i.author == current_user.id:
+            ask_mi.append(i)
+    return render_template('my_ask.html', **param, ask=ask_mi)
 
 
 if __name__ == '__main__':
