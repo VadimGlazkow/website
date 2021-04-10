@@ -5,56 +5,74 @@
                 integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
                 crossorigin="anonymous">
         </script>
+    <style>
+        .title_reg {
+            font-family: "OpenSans", Arial, sans-serif;
+         }
+        .row {
+            margin-top: 30px;
+        }
+        .field {
+            float: right;
+            margin-right: 70%;
+        }
+        .string {
+            font-family: "OpenSans", Arial, sans-serif;
+            font-size: 18px;
+        }
+    </style>
 
-<div style="margin-left: 5%; font-size: 32px;">Регистрация</div>
+<div style="margin-left: 5%; font-size: 40px; color: #12cdd4" class="title_reg">Регистрация</div>
 <form enctype="multipart/form-data" method="post" style="margin-left: 5%;">
     {{ form.hidden_tag() }}
-    <p>
-        {{ form.email.label }}<span style="color: red;">*</span>:
-        {{ form.email(class="form-control", type="email") }}<br>
+    <p class="row">
+        <span class="string">{{ form.email.label }}<span style="color: red;">*</span>:</span>
+        <span style="margin-left: 2%;">
+            <span class="field">{{ form.email(class="form-control", type="email") }}</span>
+        </span><br>
         {% for error in form.email.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
             </p>
         {% endfor %}
     </p>
-    <p>
-        {{ form.password.label }}<span style="color: red;">*</span>:
-        {{ form.password(class="form-control", type="password") }}<br>
+    <p class="row">
+        <span class="string">{{ form.password.label }}<span style="color: red;">*</span>:</span>
+        <span class="field">{{ form.password(class="form-control", type="password") }}</span><br>
         {% for error in form.password.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
             </p>
         {% endfor %}
     </p>
-    <p>
-        {{ form.password_again.label }}<span style="color: red;">*</span>:
-        {{ form.password_again(class="form-control", type="password") }}<br>
+    <p class="row">
+        <span class="string">{{ form.password_again.label }}<span style="color: red;">*</span>:</span>
+        <span class="field">{{ form.password_again(class="form-control", type="password") }}</span><br>
         {% for error in form.password_again.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
             </p>
         {% endfor %}
     </p>
-    <p>
-        {{ form.surname.label }}<span style="color: red;">*</span>:
-        {{ form.surname(class="form-control") }}<br>
+    <p class="row">
+        <span class="string">{{ form.surname.label }}<span style="color: red;">*</span>:</span>
+        <span class="field">{{ form.surname(class="form-control") }}</span><br>
         {% for error in form.surname.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
             </p>
         {% endfor %}
     </p>
-    <p>
-        {{ form.name.label }}<span style="color: red;">*</span>:
-        {{ form.name(class="form-control") }}<br>
+    <p class="row">
+        <span class="string">{{ form.name.label }}<span style="color: red;">*</span>:</span>
+        <span class="field">{{ form.name(class="form-control") }}</span><br>
         {% for error in form.name.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
             </p>
         {% endfor %}
     </p>
-    <p>
+    <p class="row">
         {{ form.avatar_photo.label }}:<br>
         {{ form.avatar_photo(class="form-control") }}
         {% for error in form.avatar_photo.errors %}
@@ -63,8 +81,8 @@
         </div>
         {% endfor %}
     </p>
-    <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    <p class="row">{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+    <p class="row">{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     {{message}}
 </form>
 

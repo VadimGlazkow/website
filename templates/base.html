@@ -9,9 +9,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="{{ css_file }}">
-    <style>.button7 {
+    <style>.button7, .button5 {
   font-weight: 700;
-  color: white;
   text-decoration: none;
   padding: .8em 1em calc(.8em + 3px);
   border-radius: 3px;
@@ -20,11 +19,33 @@
   transition: 0.2s;
    position: absolute;
 }
+.button7 {
+   color: white;
+}
+.button5 {
+    color: #c7cdd3;
+}
+
+
 .button7:hover { background: #12cdd4; }
 .button7:active {
   background: #1b84c6;
   box-shadow: 0 3px #1b84c6 inset;
-} </style>
+}
+@font-face {
+  font-family: "San Francisco";
+  font-weight: 400;
+  src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
+}
+ .name_of_user {
+ font-size: 18px;
+ font-family: "San Francisco";
+ color: black;
+ font: bold;
+ font-weight: bold;
+ }
+
+ </style>
 </head>
 <body class="fon_us">
 <header style="background-color: #2d9bf0; height: 80px; margin-bottom: 30px;">
@@ -33,24 +54,29 @@
         {% if current_user.is_authenticated %}
             <a href="/new_ask" class="button7" style="top: 30px; left: 200px;">Задать вопрос</a>
             <a href="/my_ask" class="button7" style="top: 30px; left: 350px">Мои вопросы</a>
+        {% else %}
+            <div class="button5" style="top: 30px; left: 200px">Задать вопрос</div>
+            <div class="button5" style="top: 30px; left: 350px">Мои вопросы</div>
         {% endif %}
         <a href="/about_us" class="button7" style="top: 30px; left: 497px;">О нас</a>
 
     </div>
     {% if current_user.is_authenticated %}
-        <img src="static/img/avatars/{{current_user.photo}}" width="40" style="border-radius: 50%;left:1000px;position:absolute">
-            <p style="left:1050px;position:absolute">
-            {{ current_user.name }} {{ current_user.surname }}
+        <div>
+            <img src="static/img/avatars/{{current_user.photo}}" width="40" style="border-radius: 50%;left: 72%; position:absolute; margin-top: 20px;">
+            <p style="left: 76%; position:absolute; margin-top: 28px;" class="name_of_user">
+                {{ current_user.name }} {{ current_user.surname }}
             </p>
-        <a href="/logout" style="left:1300px;position:absolute" class="button7">
+                <a href="/logout" style="left:87%; position:absolute; margin-top: 17px;" class="button7">
             Выход
-        </a>
+            </a>
+        </div>
     {% else %}
     <p>
-        <a href="/login" class="button7" style="top: 30px; left: 60%;">
+        <a href="/login" class="button7" style="top: 30px; left: 70%;">
            Войти
         </a>
-        <a href="/register" class="button7" style="top: 30px; left: 67%;">
+        <a href="/register" class="button7" style="top: 30px; left: 77%;">
             Зарегистрироваться
         </a>
         {% endif %}
