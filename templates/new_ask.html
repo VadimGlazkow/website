@@ -2,7 +2,7 @@
 
 {% block new_ask %}
     <h1>Новый вопрос</h1>
-    <form action="" method="post">
+    <form enctype="multipart/form-data" method="post" style="margin-left: 5%;">
         {{ form.hidden_tag() }}
         <p>
             {{ form.title.label }}<br>
