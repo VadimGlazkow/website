@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+
+{% block read_ask %}
+    <body style="background-image: url({{fon_li}});">
+            <h1>{{ ask.title }}</h1>
+            <div class="together_with">
+            <img src="{{avatar}}" width="40" class="photo_straw">
+            <div class="datem">
+                {{ask.user.name}} {{ask.user.surname}}&nbsp&nbsp{{ask.date}}
+            </div>
+        </div><br><br>
+                <p class="question">{{ ask.question }}</p>
+            <div class="stars">
+
+            {% for num in range(1, 6) %}
+                    {% if num * 10 <= ask.popular %}
+                        <img src="{{ star_on_o }}" width="17">
+                    {% else %}
+                        <img src="{{ star_off_o }}" width="17">
+                    {% endif %}
+            {% endfor %}
+            </div>
+        {% for com in comment %}
+            <div class="datem">
+                {{com.date}}
+            </div>
+            <br><br>
+                    <p class="question" style="background-color: rgb(200, 200, 200)">{{ com.comment }}</p>
+           {% endfor %}
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.comment.label }}
+            {{ form.comment(class="rounded-input") }}
+            {% for error in form.comment.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit(type="submit", class="button6") }}</p>
+        <div>{{ message }}</div>
+    </form>
+    </body>
+{% endblock %}

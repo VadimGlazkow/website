@@ -3,7 +3,7 @@
 <head>
     <style>
         body.fon_us {
-      background-image: url('static/img/fon.jpg');
+      background-image: url({{fon}});
         }
        </style>
     <meta charset="utf-8">
@@ -47,7 +47,7 @@
 
  </style>
 </head>
-<body class="fon_us">
+<body class="fon_us" style="background-image: {{fon}};">
 <header style="background-color: #2d9bf0; height: 80px; margin-bottom: 30px;">
     <a href="/"><img src="{{ logo_photo }}" height="65" style="float: left; margin-left: 10px; margin-top: 7px;"></a>
     <div style="margin-left: 30px; float: left">
@@ -63,12 +63,13 @@
     </div>
     {% if current_user.is_authenticated %}
         <div>
-            <img src="static/img/avatars/{{current_user.photo}}" width="40" style="border-radius: 50%;left: 72%; position:absolute; margin-top: 20px;">
+            <a href="pers_account/{{current_user.id}}"><img src="{{ava}}" width="40" style="border-radius: 50%;left: 72%; position:absolute; margin-top: 20px;"></a>
             <p style="left: 76%; position:absolute; margin-top: 28px;" class="name_of_user">
                 {{ current_user.name }} {{ current_user.surname }}
             </p>
                 <a href="/logout" style="left:87%; position:absolute; margin-top: 17px;" class="button7">
             Выход
+
             </a>
         </div>
     {% else %}
@@ -87,8 +88,11 @@
         {% block login %}{% endblock %}
         {% block about_us %}{% endblock %}
         {% block register %}{% endblock %}
-         {% block my_ask %}{% endblock %}
+        {% block my_ask %}{% endblock %}
         {% block new_ask %}{% endblock %}
+        {% block profil %}{% endblock %}
+        {% block read_ask %}{% endblock %}
+
     </div>
 <footer>
     <div class="floor" style="background-color: #808080; margin-top: 30px; height: 80px;">
@@ -103,7 +107,7 @@
             <a href="/"><img  width="35" height="35" src="{{vk}}"></a>&nbsp&nbsp&nbsp&nbsp
             <a href="/"><img  width="35" height="35" src="{{insta}}"></a>&nbsp&nbsp&nbsp&nbsp
             <a href="/"><img  width="35" height="35" src="{{face}}"></a>&nbsp&nbsp&nbsp&nbsp
-            <a href="/"><img  width="35" height="35" src="{{git_hub}}"></a>&nbsp&nbsp&nbsp&nbsp
+            <a href="https://github.com/VadimGlazkowUr/website"><img  width="35" height="35" src="{{git_hub}}"></a>&nbsp&nbsp&nbsp&nbsp
             <a href="/"><img  width="35" height="35" src="{{youtube}}"></a>
         </div>
     </div>
