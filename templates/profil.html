@@ -10,7 +10,7 @@
     <br><br>
     {% for qst in questions %}
         <a href="/inf_ask/{{qst.id}}">
-            <p class="question">{{ qst.question }}</p>
+            <p class="question">{{ qst.title }}</p>
         </a>
         <div class="stars">
         {% for num in range(1, 6) %}

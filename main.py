@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, request, redirect
 from flask_login import LoginManager, login_user, login_required,\
     logout_user, current_user
+import requests
 from data import db_session
 from data.users import User
 from data.questions import Questions
@@ -10,7 +11,7 @@ from forms.register_form import RegisterForm
 from forms.login_form import LoginForm
 from forms.ask_form import AskForm
 from forms.new_com_form import CommForm
-
+from data import search_api
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'super_secret_key'
@@ -65,7 +66,38 @@ def title():
                                ava=url_for('static', filename='img/avatars/' + ava)
                                )
     else:
-        pass
+        qes = requests.get(f'http://localhost:8080/api/search/{form.search_line.data}').json()
+        qes_id = list(map(lambda x: qes['qest'][x], qes['qest']))
+        db_sess = db_session.create_session()
+        questions = db_sess.query(Questions).all()
+        users = db_sess.query(User).all()
+        questions.sort(key=lambda elem: elem.popular, reverse=True)
+        questions = [(qst, user) for qst in questions
+                     for user in users if user.id == qst.author]
+        questions = [(qst, user, url_for('static', filename='img/avatars/' + user.photo), str(qst.date)[:16])
+                     for qst, user in questions]
+        fo = []
+        for i in questions:
+            if i[0].id in qes_id:
+                fo.append(i)
+        questions = fo
+        return render_template('search.html', form=form,
+                               css_file=url_for('static', filename='css/title_20.css'),
+                               questions=questions,
+                               star_on_o=url_for('static', filename='img/star_on.png'),
+                               star_off_o=url_for('static', filename='img/star_off.png'),
+                               logo_photo=url_for('static', filename='img/logo_.png'),
+                               new_ask=url_for('static', filename='img/new_ask.png'),
+                               our=url_for('static', filename='img/our.png'),
+                               my_ask=url_for('static', filename='img/my_ask.png'),
+                               fon=url_for('static', filename='img/fon.png'),
+                               vk=url_for('static', filename='img/vk.png'),
+                               insta=url_for('static', filename='img/insta.png'),
+                               face=url_for('static', filename='img/face.png'),
+                               git_hub=url_for('static', filename='img/git_hub.png'),
+                               youtube=url_for('static', filename='img/YouTube.png'),
+                               ava=url_for('static', filename='img/avatars/' + ava)
+                               )
 
 
 @app.route('/about_us')
@@ -316,4 +348,5 @@ def inf_ask(qst_id):
 
 if __name__ == '__main__':
     db_session.global_init('db/posts.db')
+    app.register_blueprint(search_api.blueprint)
     app.run(port=8080, host='127.0.0.1')
