@@ -21,13 +21,16 @@
                     {% endif %}
             {% endfor %}
             </div>
-        {% for com in comment %}
-            <div class="datem">
-                {{com.date}}
-            </div>
-            <br><br>
-                    <p class="question" style="background-color: rgb(200, 200, 200)">{{ com.comment }}</p>
-           {% endfor %}
+        {% for com, name, surname, avatar, date, author in commentar%}
+            <br>
+            <div class="together_with">
+                <a href={{author}}><img src="{{avatar}}" width="40" class="photo_straw"></a>
+                <div class="datem">
+                    {{name}} {{surname}}&nbsp&nbsp{{date}}
+                </div>
+            </div><br><br>
+            <p class="question" style="background: rgb(200, 200, 200)">{{ com }}</p>
+            {% endfor %}
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>

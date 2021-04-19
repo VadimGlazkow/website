@@ -117,7 +117,10 @@ def register():
         if db_sess.query(User).filter(User.email == form.email.data).first():
             return render_template('register.html', **param,
                                    message="Такой пользователь уже есть")
-        id_for_avatar = max([user.id for user in db_sess.query(User).all()]) + 1
+        try:
+            id_for_avatar = max([user.id for user in db_sess.query(User).all()]) + 1
+        except:
+            id_for_avatar = 0
         photo = form.avatar_photo.data
         if photo:
             with open(f'static/img/avatars/{id_for_avatar}_avatar.png', 'wb') as file:
@@ -187,7 +190,10 @@ def new_ask():
              'ava': url_for('static', filename='img/avatars/' + ava)}
     if form.validate_on_submit():
         db_sess = db_session.create_session()
-        id_for_fon = max([user.id for user in db_sess.query(Questions).all()]) + 1
+        try:
+            id_for_fon = max([user.id for user in db_sess.query(Questions).all()]) + 1
+        except:
+            id_for_fon = 0
         fon = form.fon_photo.data
         if fon:
             with open(f'static/img/avatars/{id_for_fon}_fon.png', 'wb') as file:
@@ -234,7 +240,7 @@ def my_ask():
     return render_template('my_ask.html', **param, ask=ask_mi)
 
 
-@app.route('/pers_account/<int:user_id>')
+@app.route('/inf_ask/pers_account/<int:user_id>')
 def pers_account(user_id):
     try:
         ava = current_user.photo
@@ -294,12 +300,18 @@ def inf_ask(qst_id):
     if form.validate_on_submit():
         text = form.comment.data
         comment = Comments(question_id=qst_id,
-                            comment=text)
+                            comment=text,
+                           author=current_user.id,)
         db_sess.add(comment)
         db_sess.commit()
     param['fon_li'] = url_for('static', filename=f'img/avatars/{ask.photo})')
     comment = db_sess.query(Comments).filter(Comments.question_id == qst_id)
-    return render_template('read_ask.html', **param, ask=ask, comment=comment, form=form)
+    comments = []
+    for i in comment:
+        user = db_sess.query(User).filter(User.id == i.author).first()
+        comments.append([i.comment, user.name, user.surname, url_for('static', filename='img/avatars/' + user.photo)
+                            ,i.date, 'pers_account/' + str(i.author)])
+    return render_template('read_ask.html', **param, ask=ask, commentar=comments, form=form)
 
 
 if __name__ == '__main__':

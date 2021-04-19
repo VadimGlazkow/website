@@ -10,6 +10,8 @@ class Comments(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
+    author = sqlalchemy.Column(sqlalchemy.Integer,
+                               sqlalchemy.ForeignKey('users.id'))
     question_id = sqlalchemy.Column(sqlalchemy.Integer,
                                     sqlalchemy.ForeignKey('questions.id'))
     comment = sqlalchemy.Column(sqlalchemy.Text)
