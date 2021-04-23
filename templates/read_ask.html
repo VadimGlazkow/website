@@ -2,10 +2,10 @@
 
 
 {% block read_ask %}
-    <body style="background-image: url({{fon_li}});">
-            <h1>{{ ask.title }}</h1>
-            <div class="together_with">
-            <img src="{{avatar}}" width="40" class="photo_straw">
+    <div>
+        <h1>{{ ask.title }}</h1>
+        <div class="together_with">
+            <img src="{{ava}}" width="40" class="photo_straw">
             <div class="datem">
                 {{ask.user.name}} {{ask.user.surname}}&nbsp&nbsp{{ask.date}}
             </div>
@@ -20,7 +20,10 @@
                         <img src="{{ star_off_o }}" width="17">
                     {% endif %}
             {% endfor %}
-            </div>
+            </div><br><br>
+            <div>
+                <img src="{{ fon_li }}"  height="500">
+            </div><br><br>
         {% for com, name, surname, avatar, date, author in commentar%}
             <br>
             <div class="together_with">
@@ -33,17 +36,19 @@
             {% endfor %}
     <form action="" method="post">
         {{ form.hidden_tag() }}
-        <p>
-            {{ form.comment.label }}
-            {{ form.comment(class="rounded-input") }}
-            {% for error in form.comment.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error }}
-                </div>
-            {% endfor %}
-        </p>
-        <p>{{ form.submit(type="submit", class="button6") }}</p>
+        {% if current_user.is_authenticated %}
+            <p>
+                {{ form.comment.label }}
+                {{ form.comment(class="rounded-input") }}
+                {% for error in form.comment.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+            <p>{{ form.submit(type="submit", class="button6") }}</p>
+        {% endif %}
         <div>{{ message }}</div>
     </form>
-    </body>
+    </div>
 {% endblock %}

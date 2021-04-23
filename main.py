@@ -199,7 +199,7 @@ def login():
             return redirect("/")
         return render_template('login.html',
                                message="Неправильный логин или пароль",
-                               form=form)
+                               **param)
     return render_template('login.html', **param)
 
 
@@ -310,7 +310,6 @@ def inf_ask(qst_id):
         ava = 'defold_avatarka.png'
     form = CommForm()
     db_sess = db_session.create_session()
-    db_sess = db_session.create_session()
     ask = db_sess.query(Questions).filter(Questions.id == qst_id).first()
     param = {'css_file': url_for('static', filename='css/title_20.css'),
                  'star_on_o': url_for('static', filename='img/star_on.png'),
@@ -321,13 +320,12 @@ def inf_ask(qst_id):
                  'face': url_for('static', filename='img/face.png'),
                  'git_hub': url_for('static', filename='img/git_hub.png'),
                  'youtube': url_for('static', filename='img/YouTube.png'),
-                'ava': url_for('static', filename='img/avatars/' + ava),}
+                 'ava': url_for('static', filename='img/avatars/' + ava),
+                 'fon': url_for('static', filename='img/fon.png')}
 
     if not ask:
         return render_template('error404.html')
     ask.popular += 1
-    param['fon'] = url_for('static', filename=f'img/avatars/{ask.photo}')
-    print(f'img/avatars/{ask.photo}')
     db_sess.commit()
     if form.validate_on_submit():
         text = form.comment.data
@@ -336,7 +334,7 @@ def inf_ask(qst_id):
                            author=current_user.id,)
         db_sess.add(comment)
         db_sess.commit()
-    param['fon_li'] = url_for('static', filename=f'img/avatars/{ask.photo})')
+    param['fon_li'] = url_for('static', filename=f'img/avatars/{ask.photo}')
     comment = db_sess.query(Comments).filter(Comments.question_id == qst_id)
     comments = []
     for i in comment:
