@@ -19,7 +19,9 @@
         .string {
             font-family: "OpenSans", Arial, sans-serif;
             font-size: 18px;
-        }
+            }
+
+
     </style>
 
 <div style="margin-left: 5%; font-size: 40px; color: #12cdd4" class="title_reg">Регистрация</div>
@@ -29,7 +31,10 @@
         <span class="string">{{ form.email.label }}<span style="color: red;">*</span>:</span>
         <span style="margin-left: 2%;">
             <span class="field">{{ form.email(class="form-control", type="email") }}</span>
-        </span><br>
+        </span>
+        <span style="position: absolute; margin-left: 25%;">
+            Введите ваш логин, он должен состоять из латинских символов
+        </span>
         {% for error in form.email.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
@@ -38,7 +43,10 @@
     </p>
     <p class="row">
         <span class="string">{{ form.password.label }}<span style="color: red;">*</span>:</span>
-        <span class="field">{{ form.password(class="form-control", type="password") }}</span><br>
+        <span class="field">{{ form.password(class="form-control", type="password") }}</span>
+        <span style="position: absolute; margin-left: 26%;">
+            Пароль должен иметь не меньше 8 символов, цифры, буквы верхнего и нижнего регистра
+        </span>
         {% for error in form.password.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
@@ -47,7 +55,10 @@
     </p>
     <p class="row">
         <span class="string">{{ form.password_again.label }}<span style="color: red;">*</span>:</span>
-        <span class="field">{{ form.password_again(class="form-control", type="password") }}</span><br>
+        <span class="field">{{ form.password_again(class="form-control", type="password") }}</span>
+         <span style="position: absolute; margin-left: 20%">
+            Повторите пароль
+        </span>
         {% for error in form.password_again.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
