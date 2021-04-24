@@ -1,5 +1,5 @@
-from flask import Flask, render_template, url_for, request, redirect
-from flask_login import LoginManager, login_user, login_required,\
+from flask import Flask, render_template, url_for, request, redirect, abort
+from flask_login import LoginManager, login_user, login_required, \
     logout_user, current_user
 import requests
 from data import db_session
@@ -10,6 +10,7 @@ from forms.search_form import SearchForm
 from forms.register_form import RegisterForm
 from forms.login_form import LoginForm
 from forms.ask_form import AskForm
+from forms.edit_ask import EditForm
 from forms.new_com_form import CommForm
 from data import search_api
 
@@ -65,6 +66,8 @@ def title():
                                youtube=url_for('static', filename='img/YouTube.png'),
                                ava=url_for('static', filename='img/avatars/' + ava)
                                )
+
+
     else:
         qes = requests.get(f'http://localhost:8080/api/search/{form.search_line.data}').json()
         qes_id = list(map(lambda x: qes['qest'][x], qes['qest']))
@@ -129,7 +132,7 @@ def about_us():
 def register():
     try:
         ava = current_user.photo
-    except:
+    except Exception:
         ava = 'defold_avatarka.png'
     form = RegisterForm()
     param = {'css_file': url_for('static', filename='css/title_20.css'),
@@ -263,7 +266,7 @@ def my_ask():
              'youtube': url_for('static', filename='img/YouTube.png'),
              'fon': url_for('static', filename='img/fon.png'),
              'ava': url_for('static', filename='img/avatars/' + ava)
-            }
+             }
     ask = db_ses.query(Questions).all()
     ask_mi = []
     for i in ask:
@@ -312,16 +315,16 @@ def inf_ask(qst_id):
     db_sess = db_session.create_session()
     ask = db_sess.query(Questions).filter(Questions.id == qst_id).first()
     param = {'css_file': url_for('static', filename='css/title_20.css'),
-                 'star_on_o': url_for('static', filename='img/star_on.png'),
-                 'star_off_o': url_for('static', filename='img/star_off.png'),
-                 'logo_photo': url_for('static', filename='img/logo_.png'),
-                 'vk': url_for('static', filename='img/vk.png'),
-                 'insta': url_for('static', filename='img/insta.png'),
-                 'face': url_for('static', filename='img/face.png'),
-                 'git_hub': url_for('static', filename='img/git_hub.png'),
-                 'youtube': url_for('static', filename='img/YouTube.png'),
-                 'ava': url_for('static', filename='img/avatars/' + ava),
-                 'fon': url_for('static', filename='img/fon.png')}
+             'star_on_o': url_for('static', filename='img/star_on.png'),
+             'star_off_o': url_for('static', filename='img/star_off.png'),
+             'logo_photo': url_for('static', filename='img/logo_.png'),
+             'vk': url_for('static', filename='img/vk.png'),
+             'insta': url_for('static', filename='img/insta.png'),
+             'face': url_for('static', filename='img/face.png'),
+             'git_hub': url_for('static', filename='img/git_hub.png'),
+             'youtube': url_for('static', filename='img/YouTube.png'),
+             'ava': url_for('static', filename='img/avatars/' + ava),
+             'fon': url_for('static', filename='img/fon.png')}
 
     if not ask:
         return render_template('error404.html')
@@ -330,8 +333,8 @@ def inf_ask(qst_id):
     if form.validate_on_submit():
         text = form.comment.data
         comment = Comments(question_id=qst_id,
-                            comment=text,
-                           author=current_user.id,)
+                           comment=text,
+                           author=current_user.id, )
         db_sess.add(comment)
         db_sess.commit()
     param['fon_li'] = url_for('static', filename=f'img/avatars/{ask.photo}')
@@ -340,8 +343,60 @@ def inf_ask(qst_id):
     for i in comment:
         user = db_sess.query(User).filter(User.id == i.author).first()
         comments.append([i.comment, user.name, user.surname, url_for('static', filename='img/avatars/' + user.photo)
-                            ,i.date, 'pers_account/' + str(i.author)])
+                            , i.date, 'pers_account/' + str(i.author)])
     return render_template('read_ask.html', **param, ask=ask, commentar=comments, form=form)
+
+
+@app.route('/delete/<int:id_quest>')
+def del_quest(id_quest):
+    try:
+        ava = current_user.photo
+    except:
+        ava = 'defold_avatarka.png'
+    db_sess = db_session.create_session()
+    questions = db_sess.query(Questions).filter(Questions.id == id_quest).first()
+    if current_user.id == questions.author:
+        db_sess.delete(questions)
+        db_sess.commit()
+    return redirect('/my_ask')
+
+
+@app.route('/qu_edit/<int:id>', methods=['GET', 'POST'])
+def edit_qu(id):
+    try:
+        ava = current_user.photo
+    except:
+        ava = 'defold_avatarka.png'
+    form = EditForm()
+    param = {'css_file': url_for('static', filename='css/title_20.css'),
+             'logo_photo': url_for('static', filename='img/logo_.png'),
+             'vk': url_for('static', filename='img/vk.png'),
+             'insta': url_for('static', filename='img/insta.png'),
+             'face': url_for('static', filename='img/face.png'),
+             'git_hub': url_for('static', filename='img/git_hub.png'),
+             'youtube': url_for('static', filename='img/YouTube.png'),
+             'form': form,
+             'fon': url_for('static', filename='img/fon.png'),
+             'ava': url_for('static', filename='img/avatars/' + ava)}
+    if request.method == "GET":
+        db_sess = db_session.create_session()
+        questions = db_sess.query(Questions).filter(Questions.id == id).first()
+        if questions.author == current_user.id:
+            if questions:
+                form.title.data = questions.title
+                form.question.data = questions.question
+            else:
+                abort(404)
+        else:
+            return redirect('/my_ask')
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        questions = db_sess.query(Questions).filter(Questions.id == id).first()
+        questions.title = form.title.data
+        questions.question = form.question.data
+        db_sess.commit()
+        return redirect('/my_ask')
+    return render_template('edit_ask.html', **param)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block new_ask %}
+    <h1>Новый вопрос</h1>
+    <form enctype="multipart/form-data" method="post" style="margin-left: 5%;">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.title.label }}<br>
+            {{ form.title(class="form-control") }}<br>
+            {% for error in form.title.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.question.label }}<br>
+            {{ form.question(class="form-control") }}<br>
+            {% for error in form.question.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        <div>{{ message }}</div>
+    </form>
+{% endblock %}
