@@ -6,8 +6,15 @@
             <a href="/qu_edit/{{ qst.id }}" class="button6">
                 Изменить
             </a>
-            <a href="/delete/{{ qst.id }}" class="button6">
+            <a href="/delete_ask/{{ qst.id }}" class="button6">
                 Удалить
+            </a>
+            <a href="/close_ask/{{ qst.id }}" class="button6">
+                {% if qst.activity %}
+                    Закрыть тему
+                {% else %}
+                    Открыть тему
+                {% endif %}
             </a>
         </div>
         <a href="/inf_ask/{{qst.id}}">

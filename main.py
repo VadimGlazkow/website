@@ -347,7 +347,7 @@ def inf_ask(qst_id):
     return render_template('read_ask.html', **param, ask=ask, commentar=comments, form=form)
 
 
-@app.route('/delete/<int:id_quest>')
+@app.route('/delete_ask/<int:id_quest>')
 def del_quest(id_quest):
     try:
         ava = current_user.photo
@@ -398,6 +398,19 @@ def edit_qu(id):
         return redirect('/my_ask')
     return render_template('edit_ask.html', **param)
 
+
+@app.route('/close_ask/<int:id_quest>')
+def close_ask(id_quest):
+    try:
+        ava = current_user.photo
+    except:
+        ava = 'defold_avatarka.png'
+    db_sess = db_session.create_session()
+    questions = db_sess.query(Questions).filter(Questions.id == id_quest).first()
+    if current_user.id == questions.author:
+        questions.activity = abs(questions.activity - 1)
+        db_sess.commit()
+    return redirect('/my_ask')
 
 if __name__ == '__main__':
     db_session.global_init('db/posts.db')

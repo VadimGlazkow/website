@@ -17,6 +17,6 @@ class Questions(SqlAlchemyBase):
     photo = sqlalchemy.Column(sqlalchemy.String, default='')
     popular = sqlalchemy.Column(sqlalchemy.Integer, default=0)
     date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.now)
-
+    activity = sqlalchemy.Column(sqlalchemy.Boolean, default=1)
     comment = orm.relation("Comments", back_populates='question')
     user = orm.relation('User')
