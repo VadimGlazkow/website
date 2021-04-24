@@ -16,6 +16,7 @@ class Comments(SqlAlchemyBase):
                                     sqlalchemy.ForeignKey('questions.id'))
     comment = sqlalchemy.Column(sqlalchemy.Text)
     date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.now)
+    color = sqlalchemy.Column(sqlalchemy.Boolean, default=0)
     # popular = sqlalchemy.Column(sqlalchemy.Integer)
 
     question = orm.relation('Questions')

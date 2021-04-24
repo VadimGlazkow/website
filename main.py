@@ -342,7 +342,7 @@ def inf_ask(qst_id):
     comments = []
     for i in comment:
         user = db_sess.query(User).filter(User.id == i.author).first()
-        comments.append([i.comment, user.name, user.surname, url_for('static', filename='img/avatars/' + user.photo)
+        comments.append([i.id, i.color, i.comment, user.name, user.surname, url_for('static', filename='img/avatars/' + user.photo)
                             , i.date, 'pers_account/' + str(i.author)])
     return render_template('read_ask.html', **param, ask=ask, commentar=comments, form=form)
 
@@ -411,6 +411,21 @@ def close_ask(id_quest):
         questions.activity = abs(questions.activity - 1)
         db_sess.commit()
     return redirect('/my_ask')
+
+
+@app.route('/color_com/<int:id>')
+def color_ask(id):
+    try:
+        ava = current_user.photo
+    except:
+        ava = 'defold_avatarka.png'
+    db_sess = db_session.create_session()
+    comment = db_sess.query(Comments).filter(Comments.id == id).first()
+    qst = db_sess.query(Questions).filter(Questions.id == comment.question_id).first()
+    if current_user.id == qst.author:
+        comment.color = abs(comment.color - 1)
+        db_sess.commit()
+    return redirect(f'/inf_ask/{qst.id}')
 
 if __name__ == '__main__':
     db_session.global_init('db/posts.db')

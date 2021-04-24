@@ -24,7 +24,7 @@
             <div>
                 <img src="{{ fon_li }}"  height="500">
             </div><br><br>
-        {% for com, name, surname, avatar, date, author in commentar%}
+        {% for id, color, com, name, surname, avatar, date, author in commentar%}
             <br>
             <div class="together_with">
                 <a href={{author}}><img src="{{avatar}}" width="40" class="photo_straw"></a>
@@ -32,7 +32,15 @@
                     {{name}} {{surname}}&nbsp&nbsp{{date}}
                 </div>
             </div><br><br>
-            <p class="question" style="background: rgb(200, 200, 200)">{{ com }}</p>
+            {% if color %}
+                <a href="/color_com/{{id}}">
+                <p class="question" style="background: rgb(45, 179, 45)">{{ com }}</p>
+                </a>
+            {% else %}
+                <a href="/color_com/{{id}}">
+                <p class="question" style="background: rgb(200, 200, 200)">{{ com }}</p>
+                </a>
+            {% endif %}
             {% endfor %}
     <form action="" method="post">
         {{ form.hidden_tag() }}
