@@ -103,8 +103,8 @@ def title():
         questions.sort(key=lambda elem: elem.popular, reverse=True)
         questions = [(qst, user) for qst in questions
                      for user in users if user.id == qst.author]
-        questions = [(qst, user, url_for('static', filename='img/avatars/' + user.photo), str(qst.date)[:16])
-                     for qst, user in questions]
+        questions = [(qst, user, url_for('static', filename='img/avatars/' + user.photo),
+                      str(qst.date)[:16]) for qst, user in questions]
         fo = []
         for i in questions:
             if i[0].id in qes_id:
@@ -137,13 +137,12 @@ def register():
         if db_sess.query(User).filter(User.email == form.email.data).first():
             return render_template('register.html', **param,
                                    message="Такой пользователь уже есть")
-        check_em = check_email(form.email.data)
-        if check_em:
+        if check_email(form.email.data):
             return render_template('register.html', **param,
-                                   message=check_em)
+                                   message=check_email(form.email.data))
         try:
             id_for_avatar = max([user.id for user in db_sess.query(User).all()]) + 1
-        except:
+        except ValueError:
             id_for_avatar = 0
         photo = form.avatar_photo.data
         if photo:
@@ -192,7 +191,7 @@ def new_ask():
         db_sess = db_session.create_session()
         try:
             id_for_fon = max([user.id for user in db_sess.query(Questions).all()]) + 1
-        except:
+        except ValueError:
             id_for_fon = 0
         fon = form.fon_photo.data
         if fon:
