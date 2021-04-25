@@ -255,7 +255,11 @@ def inf_ask(qst_id):
                            author=current_user.id, )
         db_sess.add(comment)
         db_sess.commit()
-    param['fon_li'] = url_for('static', filename=f'img/avatars/{ask.photo}')
+    param['stay_photo'] = 1
+    if ask.photo in ('fon.png', '0_fon.png'):
+        param['stay_photo'] = 0
+    else:
+        param['fon_li'] = url_for('static', filename=f'img/avatars/{ask.photo}')
     comment = db_sess.query(Comments).filter(Comments.question_id == qst_id)
     comments = []
     for i in comment:

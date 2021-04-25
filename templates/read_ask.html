@@ -22,8 +22,10 @@
             {% endfor %}
             </div><br><br>
             <div>
+                {% if stay_photo %}
                 <img src="{{ fon_li }}"  height="500">
             </div><br><br>
+                {% endif %}
         {% for id, color, com, name, surname, avatar, date, author in commentar%}
             <br>
             <div class="together_with">
