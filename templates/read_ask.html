@@ -3,7 +3,7 @@
 
 {% block read_ask %}
     <div>
-        <h1>{{ ask.title }}</h1>
+        <h1>Заголовок вопроса: {{ ask.title }}</h1>
         <div class="together_with">
             <img src="{{ava}}" width="40" class="photo_straw">
             <div class="datem">
@@ -12,7 +12,6 @@
         </div><br><br>
                 <p class="question">{{ ask.question }}</p>
             <div class="stars">
-
             {% for num in range(1, 6) %}
                     {% if num * 10 <= ask.popular %}
                         <img src="{{ star_on_o }}" width="17">
@@ -20,7 +19,27 @@
                         <img src="{{ star_off_o }}" width="17">
                     {% endif %}
             {% endfor %}
-            </div><br><br>
+            </div>
+        {% if current_user.is_authenticated %}
+            {% if current_user.id == ask.author %}
+            <div>
+                <a href="/qu_edit/{{ ask.id }}/inf_ask" class="button6">
+                    Изменить
+                </a>
+                <a href="/delete_ask/{{ ask.id }}/title" class="button6">
+                    Удалить
+                </a>
+                <a href="/close_ask/{{ ask.id }}/inf_ask" class="button6">
+                    {% if ask.activity %}
+                        Закрыть тему
+                    {% else %}
+                        Открыть тему
+                    {% endif %}
+                </a>
+                <br><br>
+            </div>
+            {% endif %}
+        {% endif %}
             <div>
                 {% if stay_photo %}
                 <img src="{{ fon_li }}"  height="500">

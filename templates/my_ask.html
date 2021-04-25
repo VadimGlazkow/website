@@ -3,13 +3,13 @@
 {% block my_ask %}
     {% for qst in ask%}
         <div>
-            <a href="/qu_edit/{{ qst.id }}" class="button6">
+            <a href="/qu_edit/{{ qst.id }}/my_ask" class="button6">
                 Изменить
             </a>
-            <a href="/delete_ask/{{ qst.id }}" class="button6">
+            <a href="/delete_ask/{{ qst.id }}/None" class="button6">
                 Удалить
             </a>
-            <a href="/close_ask/{{ qst.id }}" class="button6">
+            <a href="/close_ask/{{ qst.id }}/my_ask" class="button6">
                 {% if qst.activity %}
                     Закрыть тему
                 {% else %}

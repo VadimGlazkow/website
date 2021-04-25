@@ -13,6 +13,7 @@ from forms.ask_form import AskForm
 from forms.edit_ask import EditForm
 from forms.new_com_form import CommForm
 from data import search_api
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'super_secret_key'
@@ -109,7 +110,7 @@ def title():
             if i[0].id in qes_id:
                 fo.append(i)
         questions = fo
-        params = {**return_files(), **{return_files(ava=ava, form=form, qst=questions)}}
+        params = return_files(ava=ava, form=form, qst=questions)
         return render_template('search.html', **params)
 
 
@@ -239,20 +240,20 @@ def pers_account(user_id):
 
 @app.route('/inf_ask/<int:qst_id>', methods=['GET', 'POST'])
 def inf_ask(qst_id):
-    ava = stay_ava()
     form = CommForm()
     db_sess = db_session.create_session()
     ask = db_sess.query(Questions).filter(Questions.id == qst_id).first()
-    param = return_files(ava=ava, form=form)
     if not ask:
         return render_template('error404.html')
+    user = db_sess.query(User).filter(User.id == ask.author).first()
+    param = return_files(form=form, ava=user.photo)
     ask.popular += 1
     db_sess.commit()
     if form.validate_on_submit():
         text = form.comment.data
         comment = Comments(question_id=qst_id,
                            comment=text,
-                           author=current_user.id, )
+                           author=current_user.id)
         db_sess.add(comment)
         db_sess.commit()
     param['stay_photo'] = 1
@@ -267,24 +268,33 @@ def inf_ask(qst_id):
         comments.append([i.id, i.color, i.comment, user.name, user.surname,
                          url_for('static', filename='img/avatars/' + user.photo),
                          i.date, 'pers_account/' + str(i.author)])
-    return render_template('read_ask.html', **param, ask=ask, commentar=comments)
+
+    return render_template('read_ask.html', **param, ask=ask,
+                           commentar=comments)
 
 
-@app.route('/delete_ask/<int:id_quest>')
-def del_quest(id_quest):
+@app.route('/delete_ask/<int:id_quest>/<redirct>')
+def del_quest(id_quest, redirct):
     db_sess = db_session.create_session()
     questions = db_sess.query(Questions).filter(Questions.id == id_quest).first()
+    os.remove(f'static/img/avatars/{questions.id}_fon.png')
     if current_user.id == questions.author:
         db_sess.delete(questions)
         db_sess.commit()
-    return redirect('/my_ask')
+    if redirct == 'title':
+        redirct = '/'
+    else:
+        redirct = '/my_ask'
+    return redirect(redirct)
 
 
-@app.route('/qu_edit/<int:id>', methods=['GET', 'POST'])
-def edit_qu(id):
+@app.route('/qu_edit/<int:id>/<redirct>', methods=['GET', 'POST'])
+def edit_qu(id, redirct):
+    if redirct == 'inf_ask':
+        redirct += f'/{id}'
     ava = stay_ava()
     form = EditForm()
-    param = return_files(ava=ava)
+    param = return_files(ava=ava, form=form)
     if request.method == "GET":
         db_sess = db_session.create_session()
         questions = db_sess.query(Questions).filter(Questions.id == id).first()
@@ -295,25 +305,27 @@ def edit_qu(id):
             else:
                 abort(404)
         else:
-            return redirect('/my_ask')
+            return redirect(f'/{redirct}')
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         questions = db_sess.query(Questions).filter(Questions.id == id).first()
         questions.title = form.title.data
         questions.question = form.question.data
         db_sess.commit()
-        return redirect('/my_ask')
+        return redirect(f'/{redirct}')
     return render_template('edit_ask.html', **param)
 
 
-@app.route('/close_ask/<int:id_quest>')
-def close_ask(id_quest):
+@app.route('/close_ask/<int:id_quest>/<redirct>')
+def close_ask(id_quest, redirct):
     db_sess = db_session.create_session()
     questions = db_sess.query(Questions).filter(Questions.id == id_quest).first()
     if current_user.id == questions.author:
         questions.activity = abs(questions.activity - 1)
         db_sess.commit()
-    return redirect('/my_ask')
+    if redirct == 'inf_ask':
+        redirct += f'/{id_quest}'
+    return redirect(f'/{redirct}')
 
 
 @app.route('/color_com/<int:id>')
