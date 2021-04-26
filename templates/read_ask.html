@@ -13,7 +13,7 @@
                 <p class="question">{{ ask.question }}</p>
             <div class="stars">
             {% for num in range(1, 6) %}
-                    {% if num * 10 <= ask.popular %}
+                    {% if num * 100 <= ask.popular %}
                         <img src="{{ star_on_o }}" width="17">
                     {% else %}
                         <img src="{{ star_off_o }}" width="17">

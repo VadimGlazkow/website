@@ -22,7 +22,7 @@
         </a>
         <div class="stars">
         {% for num in range(1, 6) %}
-                {% if num <= qst.popular %}
+                {% if num * 100 <= qst.popular %}
                     <img src="{{ star_on_o }}" width="17">
                 {% else %}
                     <img src="{{ star_off_o }}" width="17">
